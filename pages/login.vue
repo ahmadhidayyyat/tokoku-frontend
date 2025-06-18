@@ -8,7 +8,7 @@
         <div class="w-full lg:w-1/2 p-8 md:p-14">
           <div class="flex items-center mb-12">
             <img
-              src="/image/logo Tokoku.png"
+              src="/image/logo-Tokoku.png"
               alt="Logo TokoKu"
               class="w-20 h-auto"
             />
@@ -73,7 +73,7 @@
           </div>
           <div class="mt-10">
             <img
-              src="/image/login view copy.png"
+              src="/image/login-view.png"
               alt="Tampilan Kasir"
               class="rounded-lg shadow-2xl"
             />
