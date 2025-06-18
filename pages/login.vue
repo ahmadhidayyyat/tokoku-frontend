@@ -8,7 +8,7 @@
         <div class="w-full lg:w-1/2 p-8 md:p-14">
           <div class="flex items-center mb-12">
             <img
-              src="/image/logo-Tokoku.png"
+              src="/image/logo-TokoKu.png"
               alt="Logo TokoKu"
               class="w-20 h-auto"
             />
