@@ -8,7 +8,6 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: true },
   modules: [
-    "@nuxt/content",
     "@nuxt/fonts",
     "@nuxt/image",
     "shadcn-nuxt",
@@ -30,6 +29,12 @@ export default defineNuxtConfig({
   prisma: {
     autoSetupPrisma: false,
     runMigration: false,
-    generateClient: true,
+  },
+  nitro: {
+    externals: {
+      // ini penting!
+      external: ["@prisma/client"],
+      inline: [".prisma/client"],
+    },
   },
 });

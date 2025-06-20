@@ -4,15 +4,15 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "build": "npm run prisma:generate && nuxt build",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@heroicons/vue": "^2.2.0",
-    "@nuxt/content": "^3.6.0",
     "@nuxt/fonts": "^0.11.4",
     "@nuxt/image": "^1.10.0",
     "@pinia/nuxt": "^0.11.1",
