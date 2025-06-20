@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     "shadcn-nuxt",
     "@pinia/nuxt",
     "pinia-plugin-persistedstate/nuxt",
+    "@prisma/nuxt",
   ],
   shadcn: {
     prefix: "",
@@ -25,5 +26,10 @@ export default defineNuxtConfig({
         baseURL: "http://localhost:3001",
       },
     },
+  },
+  prisma: {
+    autoSetupPrisma: false,
+    runMigration: false,
+    generateClient: true,
   },
 });

@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String
+  username  String    @unique
+  password  String
+  role      Role      @default(CASHIER)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  Expense   Expense[]
+  Order     Order[]
+}
+
+model Discount {
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+  type        DiscountType
+  value       Decimal
+  isActive    Boolean      @default(true)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime
+  Product     Product[]
+}
+
+model Expense {
+  id            Int             @id @default(autoincrement())
+  description   String
+  category      ExpenseCategory
+  amount        Decimal
+  expenseDate   DateTime        @default(now())
+  processedById Int
+  User          User            @relation(fields: [processedById], references: [id])
+  StockMovement StockMovement[]
+}
+
+model Order {
+  id             Int         @id @default(autoincrement())
+  status         OrderStatus @default(PENDING)
+  totalAmount    Decimal
+  discountAmount Decimal
+  finalAmount    Decimal
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime
+  processedById  Int
+  User           User        @relation(fields: [processedById], references: [id])
+  OrderItem      OrderItem[]
+}
+
+model OrderItem {
+  id              Int            @id @default(autoincrement())
+  quantity        Int
+  priceAtPurchase Decimal
+  costAtPurchase  Decimal
+  orderId         Int
+  productId       Int
+  Order           Order          @relation(fields: [orderId], references: [id])
+  Product         Product        @relation(fields: [productId], references: [id])
+  StockMovement   StockMovement?
+}
+
+model Product {
+  id            Int             @id @default(autoincrement())
+  sku           String          @unique
+  image         String?
+  name          String
+  category      String?
+  price         Decimal
+  cost          Decimal
+  stock         Int             @default(0)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime
+  OrderItem     OrderItem[]
+  StockMovement StockMovement[]
+  Discount      Discount[]
+}
+
+model StockMovement {
+  id             Int               @id @default(autoincrement())
+  type           StockMovementType
+  quantityChange Int
+  notes          String?
+  createdAt      DateTime          @default(now())
+  productId      Int
+  orderItemId    Int?              @unique
+  expenseId      Int?
+  Expense        Expense?          @relation(fields: [expenseId], references: [id])
+  OrderItem      OrderItem?        @relation(fields: [orderItemId], references: [id])
+  Product        Product           @relation(fields: [productId], references: [id])
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED_AMOUNT
+}
+
+enum ExpenseCategory {
+  STOCK_PURCHASE
+  SALARY
+  OPERATIONAL
+  UTILITIES
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+enum Role {
+  ADMIN
+  CASHIER
+}
+
+enum StockMovementType {
+  PURCHASE
+  SALE
+  RETURN
+  ADJUSTMENT
+}
